@@ -1,7 +1,4 @@
 package com.zoom.entity;
-
-
-
 import jakarta.persistence.*;
 import org.apache.catalina.User;
 
