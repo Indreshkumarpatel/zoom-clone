@@ -1,10 +1,6 @@
 package com.zoom.entity;
 
-
-
 import jakarta.persistence.*;
-import org.apache.catalina.User;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +13,7 @@ public class Meeting {
 
     @ManyToOne
     @JoinColumn(name = "host_id")
-    private User host;
+    private User host;  // Use your custom User class
 
     @Column(name = "title")
     private String title;
@@ -32,7 +28,7 @@ public class Meeting {
     @JoinTable(name = "invites",
             joinColumns = @JoinColumn(name = "meeting_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> invitedUsers;
+    private List<User> invitedUsers;  // Use your custom User class
 
     public Meeting() {
     }
