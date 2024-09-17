@@ -112,7 +112,7 @@
 <h1>WELCOME TO ZOOM</h1>
 <div class="container">
     <h2>Registration</h2>
-    <form th:action="@{/authentication-controller/register}" method="POST" th:object="${user}">
+    <form th:action="@{/user/register}" method="POST" th:object="${user}">
         <div class="form-group">
             <label for="email">Email</label>
             <input class="input" type="email" id="email" name="email" th:field="*{email}" placeholder="Email Adress" required>

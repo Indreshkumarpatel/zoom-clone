@@ -3,9 +3,9 @@ package com.zoom.controllers;
 import com.zoom.entity.Invite;
 import com.zoom.entity.Meeting;
 import com.zoom.entity.User;
-//import com.zoom.service.InviteService;
-//import com.zoom.service.MeetingService;
-//import com.zoom.service.UserService;
+import com.zoom.service.InviteService;
+import com.zoom.service.MeetingService;
+import com.zoom.service.UserService;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +45,7 @@ public class MeetingController {
         User currentLoggedInUser = userService.getCurrentUser();
         if(currentLoggedInUser==null){
             System.out.println("Please login first");
-            return "redirect:/authentication-controller/login";
+            return "redirect:/user/login";
         }
 
         List<String> inviteeEmails = Arrays.asList(invitees.split("\\s*,\\s*"));
