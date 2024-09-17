@@ -45,10 +45,10 @@ public class HomeController {
 //        return "join-meeting";
 //    }
 
-//    @GetMapping("/signIn")
-//    public String signIn() {
-//        return "sign-in";
-//    }
+    @GetMapping("/signIn")
+    public String signIn() {
+        return "sign-in";
+    }
 
 //    @GetMapping("/userDashboard")
 //    public String userDashboard(Model model){
