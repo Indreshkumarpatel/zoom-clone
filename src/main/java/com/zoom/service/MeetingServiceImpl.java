@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MeetingServiceImpl implements MeetingService{
+public class MeetingServiceImpl implements MeetingService {
     private MeetingRepository meetingRepository;
     private UserRepository userRepository;
 
     @Autowired
-    public MeetingServiceImpl (UserRepository userRepository, MeetingRepository meetingRepository) {
+    public MeetingServiceImpl(UserRepository userRepository, MeetingRepository meetingRepository) {
         this.userRepository = userRepository;
-        this.meetingRepository=meetingRepository;
+        this.meetingRepository = meetingRepository;
     }
 
     @Override
@@ -48,3 +48,4 @@ public class MeetingServiceImpl implements MeetingService{
     public List<Meeting> getAllScheduledMeetingsByHostId(Integer userId) {
         return meetingRepository.findMeetingsByHostId(userId);
     }
+}
