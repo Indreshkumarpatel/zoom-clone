@@ -10,5 +10,4 @@ public class ZoomCloneApplication {
         SpringApplication.run(ZoomCloneApplication.class, args);
         System.out.print("Hello word!.");
     }
-
 }
