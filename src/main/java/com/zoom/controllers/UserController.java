@@ -5,6 +5,7 @@ import com.zoom.entity.User;
 import com.zoom.service.RoleService;
 import com.zoom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,13 @@ public class UserController {
 
     private UserService userService;
     private RoleService roleService;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(UserService userService, RoleService roleService,BCryptPasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @GetMapping("/login")
@@ -57,7 +60,9 @@ public class UserController {
         Role role = new Role();
         role.setRole("ADMIN");
         role.setUsername(user.getEmail());
-        user.setPassword("{noop}" + user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+//        user.setPassword("{noop}" + user.getPassword());
         System.out.println("ROLE : " + role.getUsername() + " " + role.getRole());
         roleService.saveRole(role);
         userService.createUser(user);
