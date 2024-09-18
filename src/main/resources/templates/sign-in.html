@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
     <style>
-        /* Basic reset */
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body styling */
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -23,7 +23,7 @@
             min-height: 100vh;
         }
 
-        /* Container styling */
+
         .container {
             background-color: #fff;
             padding: 30px;
@@ -33,7 +33,7 @@
             max-width: 400px;
         }
 
-        /* Header styling */
+
         h1 {
             font-size: 36px;
             color: #0077cc;
@@ -48,12 +48,12 @@
             text-align: center;
         }
 
-        /* Form group styling */
+
         .form-group {
             margin-bottom: 20px;
         }
 
-        /* Input field styling */
+
         .input {
             width: 100%;
             padding: 12px;
@@ -80,7 +80,7 @@
             background-color: #005fa3;
         }
 
-        /* Error message styling */
+
         .error-message {
             color: red;
             font-size: 14px;
@@ -88,7 +88,7 @@
             text-align: center;
         }
 
-        /* Sign up link styling */
+
         p {
             margin-top: 20px;
             text-align: center;
@@ -108,7 +108,7 @@
             text-decoration: underline;
         }
 
-        /* Responsive Design */
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -138,8 +138,8 @@
         <div class="form-group">
             <button type="submit">Sign In</button>
         </div>
-        <div th:if="${error}" class="error-message">
-            <p th:text="${error}"></p>
+        <div th:if="${param.error}" class="error-message">
+            <p class="error-message" th:text="${error}"></p>
         </div>
     </form>
 </div>
