@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class InviteServiceImpl implements InviteService{
+public class InviteServiceImpl implements InviteService {
 
     InviteRepository inviteRepository;
 
@@ -22,6 +22,6 @@ public class InviteServiceImpl implements InviteService{
 
     @Override
     public Invite findByMeetingIdAndUserId(Integer meetingId, Integer userId) {
-        return inviteRepository.findByMeetingIdAndUserId(meetingId,userId);
+        return inviteRepository.findByMeetingIdAndUserId(meetingId, userId);
     }
 }

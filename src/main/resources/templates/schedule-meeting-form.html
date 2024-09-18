@@ -5,58 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule Zoom Meeting</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: black;
+        /* Basic reset */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
+        /* Body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container styling */
         .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
         }
 
+        /* Heading styling */
         h2 {
+            color: #0077cc;
+            font-size: 24px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
-        .button-container {
-            text-align: center;
-        }
-
+        /* Label styling */
         label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
+            color: #333;
         }
 
+        /* Input fields styling */
         input[type="text"],
         input[type="datetime-local"],
         input[type="number"] {
             width: 100%;
             padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-sizing: border-box;
+            font-size: 16px;
         }
 
-        button[type="submit"] {
-            background-color: black;
+        /* Button styling */
+        button {
+            background-color: #0077cc;
             color: white;
-            padding: 12px 20px;
             border: none;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
             width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
         }
 
-        button[type="submit"]:hover {
-            background-color: #45a049;
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        /* Cancel button styling */
+        form[th\\:action="@{/userDashboard}"] button {
+            background-color: #f44336;
+            margin-top: 20px;
+        }
+
+        form[th\\:action="@{/userDashboard}"] button:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -65,14 +101,18 @@
     <h2>Welcome to Zoom</h2>
     <div class="button-container">
         <form th:action="@{/meeting-controller/scheduleMeeting}" th:object="${meeting}" method="post">
-            <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" th:field="*{title}"><br>
-            <label for="datetime">Date and Time:</label><br>
-            <input type="datetime-local" id="datetime" name="datetime" th:field="*{dateTime}"><br>
-            <label for="invitees">Invitees:</label><br>
-            <input type="text" id="invitees" name="invitees"><br>
-            <label for="duration">Duration (minutes):</label><br>
-            <input type="number" id="duration" name="duration" th:field="*{duration}"><br><br>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" th:field="*{title}">
+
+            <label for="datetime">Date and Time:</label>
+            <input type="datetime-local" id="datetime" name="datetime" th:field="*{dateTime}">
+
+            <label for="invitees">Invitees:</label>
+            <input type="text" id="invitees" name="invitees">
+
+            <label for="duration">Duration (minutes):</label>
+            <input type="number" id="duration" name="duration" th:field="*{duration}">
+
             <button type="submit">Schedule Meeting</button>
         </form>
     </div>

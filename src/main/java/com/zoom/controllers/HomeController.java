@@ -24,24 +24,24 @@ public class HomeController {
     private InviteService inviteService;
 
     @Autowired
-    public HomeController(MeetingService meetingService, UserService userService,InviteService inviteService) {
+    public HomeController(MeetingService meetingService, UserService userService, InviteService inviteService) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.inviteService = inviteService;
     }
 
     @GetMapping
-    public String homePage(){
+    public String homePage() {
         return "home";
     }
 
     @GetMapping("/newMeeting")
-    public String newMeeting(Model model){
+    public String newMeeting(Model model) {
         return "newMeeting";
     }
 
     @GetMapping("/joinMeeting")
-    public String joinMeeting(Model model){
+    public String joinMeeting(Model model) {
         return "join-meeting";
     }
 
@@ -51,22 +51,22 @@ public class HomeController {
     }
 
     @GetMapping("/userDashboard")
-    public String userDashboard(Model model){
+    public String userDashboard(Model model) {
         User currentLoggedInUser = userService.getCurrentUser();
-        if(currentLoggedInUser==null){
+        if (currentLoggedInUser == null) {
             System.out.println("Please Login first");
             return "sign-in";
         }
 
         Integer userId = currentLoggedInUser.getId();
         List<Meeting> scheduledMeetings = meetingService.getAllScheduledMeetingsByHostId(userId);
-        Map<Meeting,Integer> invitedMeetings = new HashMap<>();
+        Map<Meeting, Integer> invitedMeetings = new HashMap<>();
 
-        for(Meeting currMeeting: currentLoggedInUser.getInvitedMeetings()){
+        for (Meeting currMeeting : currentLoggedInUser.getInvitedMeetings()) {
             Integer meetingId = currMeeting.getId();
-            Invite invite = inviteService.findByMeetingIdAndUserId(meetingId,userId);
+            Invite invite = inviteService.findByMeetingIdAndUserId(meetingId, userId);
             int status = invite.getStatus();
-            invitedMeetings.put(currMeeting,status);
+            invitedMeetings.put(currMeeting, status);
         }
 
         model.addAttribute("scheduledMeetings", scheduledMeetings);

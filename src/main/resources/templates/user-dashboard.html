@@ -1,233 +1,188 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoom Homepage</title>
+
     <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 20px;
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-        }
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
 
-        .main {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-        }
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
 
-        .container {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            justify-content: center;
-        }
+.main {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-        .right-container {
-            width: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-        }
+.container {
+    width: 50%;
+    text-align: center;
+    padding: 20px;
+}
 
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #0078D7;
+}
 
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
 
+.button-container a {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+}
 
-        button:hover {
-            background-color: #3e8e41;
-            border-color: #3e8e41;
-        }
-        h1{
-            color:black;
-        }
+.button-container a:hover {
+    transform: translateY(-5px);
+}
 
-        h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-            color: white;
-        }
+.button-container img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
 
-        h3 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: white;
-            text-align: center;
-        }
+.right-container {
+    width: 45%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-        p {
-            margin: 10px 0;
-            color: #fff;
-        }
-        .bottom-containt {
-            width: 81%;
-            border: 2px solid #737f86;
-            padding: 0rem 2rem;
-            border-radius: 12px;
-            height: 35%;
-            align-items: center;
-        }
+.right-content h2 {
+    font-size: 1.8rem;
+    color: #0078D7;
+    margin-bottom: 10px;
+}
 
-        #met{
-            max-height: 14rem;
-        }
+.meeting-list ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-        .meeting-list {
-            display: flex;
-            flex-direction: column;
-            margin-top: 20px;
-            overflow-y: scroll;
-         }
+.meeting-list li {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #eef;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-        .meeting-list ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display:flex;
-            flex-direction:column;
+.meetingbtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        }
+.meetingbtn button {
+    background-color: #0078D7;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-        .meeting-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width:15rem;
-            padding: 10px;
-            background-color: #252525;
-            color:white;
-            border-radius: 5px;
-        }
+.meetingbtn button:hover {
+    background-color: #005bb5;
+}
 
-        .meeting-list form {
-            display: flex;
-            align-items: center;
-        }
+.logout {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        .meetingbtn{
-            display: flex;
-            margin-bottom:1rem;
-            align-items: center;
-            justify-content: space-around;
-        }
+.logout:hover {
+    background-color: #c0392b;
+}
 
-        .right-content{
-            padding: 1rem 3rem;
-            border: 2px solid #737f86;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            border-radius: 12px;
-            margin-top: 1rem;
-            width: 77%;
-            overflow-y: auto;
-            max-height: 44%;
-        }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
 
-        .meeting-list button,.logout {
-            width: 89px;
-            height: 40px;
-            padding: 5px;
-            margin-left: 10px;
-            border: 1px solid #1991d1;
-            border-radius: 12px;
-            color: #fff;
-            background: transparent;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    margin: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
 
-        .meeting-list button:hover {
-            background-color:#1991d1 ;
-            color: black;
-        }
+.modal-content h1 {
+    margin-bottom: 20px;
+    color: #0078D7;
+}
 
-        img {
-            width: 120px;
-            height: 120px;
-            border-radius: 30px;
-        }
+.modal-content input,
+.modal-content button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        a {
-            margin: 15px;
-            text-decoration:none;
-        }
+.modal-content button {
+    background-color: #0078D7;
+    color: white;
+    cursor: pointer;
+}
 
-        p {
-            margin-left: 5px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
+.modal-content button:hover {
+    background-color: #005bb5;
+}
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 35%;
-            border-radius: 5px;
-        }
+.close {
+    color: #333;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 
+.close:hover {
+    color: #ff0000;
+}
 
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="datetime-local"],
-        input[type="number"] {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px solid black;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"] {
-            background-color: black;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #333;
-        }
     </style>
+
 </head>
 
 <body>
@@ -238,22 +193,19 @@
 
         <div class="button-container">
             <a th:href="@{/newMeeting}">
-                <img
-                        src="https://cdn.discordapp.com/attachments/1222406901002797170/1224685616449458276/join-logo.png?ex=661e645c&is=660bef5c&hm=7a2cc49d3ff19007036e669536a2f8908f6d0da0d1904f7e413448a2524c1be7&">
+                <img th:src="@{/images/camera-logo.jpeg}" alt="New Meeting">
                 <p>New Meeting</p>
             </a>
             <a th:href="@{/joinMeeting}">
-                <img
-                        src="https://cdn.discordapp.com/attachments/1222406901002797170/1224685616705437726/camera-logo.jpeg?ex=661e645c&is=660bef5c&hm=885466248fdc2aca5a4ec166899a674746e1957ef57f0467ef505913971c7c1d&">
-                <p>Join meeting</p>
+                <img th:src="@{/images/join-logo.png}" alt="Join Meeting">
+                <p>Join Meeting</p>
             </a>
             <a onclick="openModal()">
-                <img
-                        src="https://cdn.discordapp.com/attachments/1222406901002797170/1224686035473272922/calender.webp?ex=661e64c0&is=660befc0&hm=71b5371abbf664c7995e844bcf73ea92a90ace4bb4e8e241adcff9d8732cdefe&">
-                <p>Schedule meeting</p>
+                <img th:src="@{/images/calender.webp}" alt="Schedule Meeting">
+                <p>Schedule Meeting</p>
             </a>
-
         </div>
+
     </div>
     <div class="right-container">
         <div class="right-content">

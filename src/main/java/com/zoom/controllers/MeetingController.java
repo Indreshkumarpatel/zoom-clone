@@ -25,25 +25,25 @@ public class MeetingController {
     InviteService inviteService;
 
     @Autowired
-    public MeetingController(MeetingService meetingService, UserService userService , InviteService inviteService) {
+    public MeetingController(MeetingService meetingService, UserService userService, InviteService inviteService) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.inviteService = inviteService;
     }
 
     @GetMapping("/scheduleMeeting")
-    public String scheduleMeeting(Model model){
+    public String scheduleMeeting(Model model) {
         Meeting meeting = new Meeting();
-        model.addAttribute("meeting",meeting);
+        model.addAttribute("meeting", meeting);
         return "schedule-meeting-form";
     }
 
     @PostMapping("/scheduleMeeting")
     public String scheduleMeeting(@ModelAttribute Meeting meeting,
                                   Authentication authentication,
-                                  @RequestParam("invitees") String invitees){
+                                  @RequestParam("invitees") String invitees) {
         User currentLoggedInUser = userService.getCurrentUser();
-        if(currentLoggedInUser==null){
+        if (currentLoggedInUser == null) {
             System.out.println("Please login first");
             return "redirect:/user/login";
         }
@@ -66,7 +66,7 @@ public class MeetingController {
 
     @GetMapping("/startScheduledMeeting")
     public String startScheduledMeeting(@RequestParam("meetingId") Integer meetingId,
-                                        Model model){
+                                        Model model) {
         System.out.println("Meeting id : " + meetingId);
         Meeting meeting = meetingService.findMeetingById(meetingId);
         System.out.println("MEETING IS : " + meeting);
@@ -74,7 +74,7 @@ public class MeetingController {
     }
 
     @GetMapping("/deleteScheduledMeeting")
-    public String deleteScheduledMeeting(@RequestParam("meetingId") Integer meetingId){
+    public String deleteScheduledMeeting(@RequestParam("meetingId") Integer meetingId) {
         System.out.println("Meeting id : " + meetingId);
         Meeting meeting = meetingService.findMeetingById(meetingId);
         System.out.println("MEETIG IS : " + meeting);
@@ -83,7 +83,7 @@ public class MeetingController {
     }
 
     @PostMapping("/acceptMeetingInvite")
-    public String acceptMeetingInvite(@RequestParam("inviteId") Integer meetingId){
+    public String acceptMeetingInvite(@RequestParam("inviteId") Integer meetingId) {
         User currentLoggedInUser = userService.getCurrentUser();
         Integer userId = currentLoggedInUser.getId();
 
@@ -96,7 +96,7 @@ public class MeetingController {
     }
 
     @PostMapping("/declineMeetingInvite")
-    public String declineMeetingInvite(@RequestParam("inviteId") Integer meetingId){
+    public String declineMeetingInvite(@RequestParam("inviteId") Integer meetingId) {
         User currentLoggedInUser = userService.getCurrentUser();
         Meeting meeting = meetingService.findMeetingById(meetingId);
         Integer userId = currentLoggedInUser.getId();

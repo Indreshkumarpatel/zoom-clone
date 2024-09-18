@@ -1,71 +1,86 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <style>
         body {
-            margin: 10% ;
-            background-color: white;
             font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
+            justify-content: flex-start; /* Aligns content to the top */
             align-items: center;
-            padding: 50px;
+            min-height: 100vh;
         }
 
         h1 {
-            font-size: 60px;
-            color: black;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            color: #2d87f0;
+            font-size: 3rem;
+            margin-top: 20px; /* Add space at the top */
             margin-bottom: 50px;
         }
 
-        form {
-            margin-bottom: 20px;
+        .container {
+            display: flex;
+            flex-direction: column; /* Buttons stack vertically */
+            align-items: center;
+            margin: 0;
         }
 
-        .first {
-            font-size: 20px;
-            padding: 10px 20px;
-            background-color: #2196F3;
-            color: white;
+        button {
+            background-color: #2d87f0;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 250px;
-        }
-        .second{
-            font-size: 20px;
-            padding: 10px 20px;
-            background-color: black;
             color: white;
-            border: none;
-            border-radius: 5px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
             cursor: pointer;
-            width: 250px;
-        }
-        .container{
-            border: 1px solid white;
             border-radius: 5px;
+            margin: 10px 0; /* Added vertical margin to separate buttons */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            width: 200px; /* Set a consistent width for all buttons */
         }
 
         button:hover {
-            background-color: #0B7DF1;
+            background-color: #1c5fb8;
+        }
+
+        .first {
+            background-color: #28a745;
+        }
+
+        .first:hover {
+            background-color: #218838;
+        }
+
+        .second {
+            background-color: #6c757d;
+        }
+
+        .second:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
-<h1>ZOOM Workplace</h1>
+<h1>ZOOM WORKPLACE</h1>
 
-<form  th:action="@{/joinMeeting}">
-    <button class="first">Join a meeting</button>
-</form>
-<form class="container" th:action="@{/user/signUp}">
-    <button class="second">Sign up</button>
-</form>
-<form class="container" th:action="@{/user/login}">
-    <button class="second">Sign in</button>
-</form>
+<div class="container">
+    <form th:action="@{/joinMeeting}">
+        <button class="first">Join a meeting</button>
+    </form>
+    <form th:action="@{/user/signUp}">
+        <button class="second">Sign up</button>
+    </form>
+    <form th:action="@{/user/login}">
+        <button class="second">Sign in</button>
+    </form>
+</div>
 </body>
 </html>

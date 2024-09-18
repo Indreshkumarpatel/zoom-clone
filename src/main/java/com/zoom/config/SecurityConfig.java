@@ -21,7 +21,7 @@ public class SecurityConfig {
     private DataSource dataSource;
 
     @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource){
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
         jdbcUserDetailsManager.setUsersByUsernameQuery(
@@ -36,18 +36,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
-                        configurer
-                                .requestMatchers("/**").permitAll()
-                                .requestMatchers("/joinMeeting/**").permitAll()
-                                .requestMatchers("/authentication-controller/login").permitAll()
-                                .requestMatchers("/authentication-controller/signUp").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/api/sessions").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/api/sessions/**").permitAll()
-                                .anyRequest().authenticated()
+                                configurer
+                                        .requestMatchers("/**").permitAll()
+                                        .requestMatchers("/joinMeeting/**").permitAll()
+                                        .requestMatchers("/user/login").permitAll()
+                                        .requestMatchers("/user/signUp").permitAll()
+                                        .requestMatchers("/images/**", "/css/**", "/js/**").permitAll()  // Allow access to static resources
+//                                .requestMatchers(HttpMethod.POST,"/api/sessions").permitAll()
+//                                .requestMatchers(HttpMethod.POST,"/api/sessions/**").permitAll()
+                                        .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form
-                                .loginPage("/authentication-controller/login")
+                                .loginPage("/user/login")
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .defaultSuccessUrl("/userDashboard")
                                 .permitAll()
