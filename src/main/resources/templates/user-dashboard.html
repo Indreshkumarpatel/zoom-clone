@@ -20,6 +20,20 @@ body {
     color: #333;
 }
 
+header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    background-color: #0078D7; /* You can adjust the color */
+    color: white;
+    font-size: 1rem;
+}
+
+header p {
+    margin: 0;
+}
+
+
 .main {
     display: flex;
     justify-content: space-between;
@@ -187,11 +201,12 @@ h2 {
 </head>
 
 <body>
-
+<header>
+    <p>Hello, <strong th:text="${loggedInUser.email}">User</strong>!</p>
+</header>
 <div class="main">
     <div class="container">
         <h2>Welcome to Zoom</h2>
-
         <div class="button-container">
             <a th:href="@{/newMeeting}">
                 <img th:src="@{/images/camera-logo.jpeg}" alt="New Meeting">
@@ -206,8 +221,9 @@ h2 {
                 <p>Schedule Meeting</p>
             </a>
         </div>
-
     </div>
+
+
     <div class="right-container">
         <div class="right-content">
             <h2>Current Time</h2>

@@ -69,11 +69,10 @@ public class HomeController {
             invitedMeetings.put(currMeeting, status);
         }
 
+        model.addAttribute("loggedInUser",currentLoggedInUser);
         model.addAttribute("scheduledMeetings", scheduledMeetings);
         model.addAttribute("invitedMeetings", invitedMeetings);
-        System.out.println("INSIDE DASHBOARD FN. INVITED MEETINGS : " + invitedMeetings);
         model.addAttribute("meeting", new Meeting());
         return "user-dashboard";
     }
-
 }

@@ -48,7 +48,6 @@ public class UserController {
     }
 
     @PostMapping("/register")
-
     public String registerUser(@ModelAttribute User user, Model model) {
         User existingUser = userService.findUserByEmail(user.getEmail());
         if (existingUser != null) {
@@ -56,18 +55,12 @@ public class UserController {
             return "sign-up";
         }
 
-        System.out.println("user: " + user.getEmail() + " " + user.getPassword());
         Role role = new Role();
         role.setRole("ADMIN");
         role.setUsername(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-//        user.setPassword("{noop}" + user.getPassword());
-        System.out.println("ROLE : " + role.getUsername() + " " + role.getRole());
         roleService.saveRole(role);
         userService.createUser(user);
-
         return "sign-in";
     }
-
 }
