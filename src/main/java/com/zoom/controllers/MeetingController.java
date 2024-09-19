@@ -88,6 +88,7 @@ public class MeetingController {
         Integer userId = currentLoggedInUser.getId();
 
         Invite invite = inviteService.findByMeetingIdAndUserId(meetingId, userId);
+
         System.out.println("INVITE IS : " + invite.getMeeting_id() + " " + invite.getUser_id() + " status: " + invite.getStatus());
         invite.setStatus(1);
         inviteService.saveInvite(invite);
