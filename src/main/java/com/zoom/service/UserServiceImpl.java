@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
         User currentLoggedInUser = userRepository.findByEmail(userEmail);
         return currentLoggedInUser;
     }
-
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);

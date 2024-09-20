@@ -41,7 +41,6 @@ public class UserController {
 
     @GetMapping("/signUp")
     public String signUp(Model model) {
-        System.out.println("HELLO");
         User user = new User();
         model.addAttribute("user", user);
         return "sign-up";

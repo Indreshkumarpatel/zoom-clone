@@ -44,7 +44,6 @@ public class MeetingController {
                                   @RequestParam("invitees") String invitees) {
         User currentLoggedInUser = userService.getCurrentUser();
         if (currentLoggedInUser == null) {
-            System.out.println("Please login first");
             return "redirect:/user/login";
         }
 
@@ -56,28 +55,22 @@ public class MeetingController {
                 validInvitees.add(invitedUser);
             }
         }
-
         meeting.setInvitedUsers(validInvitees);
         meeting.setHost(currentLoggedInUser);
         meetingService.createMeeting(meeting);
-
         return "redirect:/userDashboard";
     }
 
     @GetMapping("/startScheduledMeeting")
     public String startScheduledMeeting(@RequestParam("meetingId") Integer meetingId,
                                         Model model) {
-        System.out.println("Meeting id : " + meetingId);
         Meeting meeting = meetingService.findMeetingById(meetingId);
-        System.out.println("MEETING IS : " + meeting);
         return "redirect:/newMeeting";
     }
 
     @GetMapping("/deleteScheduledMeeting")
     public String deleteScheduledMeeting(@RequestParam("meetingId") Integer meetingId) {
-        System.out.println("Meeting id : " + meetingId);
         Meeting meeting = meetingService.findMeetingById(meetingId);
-        System.out.println("MEETIG IS : " + meeting);
         meetingService.delete(meeting);
         return "redirect:/userDashboard";
     }
@@ -86,13 +79,9 @@ public class MeetingController {
     public String acceptMeetingInvite(@RequestParam("inviteId") Integer meetingId) {
         User currentLoggedInUser = userService.getCurrentUser();
         Integer userId = currentLoggedInUser.getId();
-
         Invite invite = inviteService.findByMeetingIdAndUserId(meetingId, userId);
-
-        System.out.println("INVITE IS : " + invite.getMeeting_id() + " " + invite.getUser_id() + " status: " + invite.getStatus());
         invite.setStatus(1);
         inviteService.saveInvite(invite);
-        System.out.println("INVITE IS : " + invite.getMeeting_id() + " " + invite.getUser_id() + " status: " + invite.getStatus());
         return "redirect:/userDashboard";
     }
 
@@ -105,6 +94,4 @@ public class MeetingController {
         userService.updateUser(currentLoggedInUser);
         return "redirect:/userDashboard";
     }
-
 }
-

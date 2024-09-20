@@ -17,7 +17,7 @@ public class Invite {
     private Integer meeting_id;
 
     @Column(name = "status")
-    private int status;
+    private int status=0;
 
     public Integer getInvite_id() {
         return invite_id;
