@@ -21,6 +21,9 @@ public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private OAuthAuthenticationSuccessHandler handler;
+
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -42,13 +45,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
-                                configurer
-                                        .requestMatchers("/**").permitAll()
-                                        .requestMatchers("/joinMeeting/**").permitAll()
-                                        .requestMatchers("/user/login").permitAll()
-                                        .requestMatchers("/user/signUp").permitAll()
-                                        .requestMatchers("/images/**").permitAll()
-                                        .anyRequest().authenticated()
+                        configurer
+                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/joinMeeting/**").permitAll()
+                                .requestMatchers("/user/login").permitAll()
+                                .requestMatchers("/user/signUp").permitAll()
+                                .requestMatchers("/images/**").permitAll()
+                                .requestMatchers("/login/oauth2/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form
@@ -56,6 +60,10 @@ public class SecurityConfig {
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .defaultSuccessUrl("/userDashboard")
                                 .permitAll()
+                )
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/login")
+                        .successHandler(handler)
                 )
                 .logout(logout -> logout.permitAll()
                         .logoutSuccessUrl("/")
