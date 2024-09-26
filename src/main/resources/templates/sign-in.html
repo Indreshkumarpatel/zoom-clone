@@ -6,14 +6,11 @@
     <title>Sign In | Zoom</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -23,8 +20,6 @@
             justify-content: center;
             min-height: 100vh;
         }
-
-
         .container {
             background-color: #fff;
             padding: 30px;
@@ -33,28 +28,21 @@
             width: 100%;
             max-width: 400px;
         }
-
-
         h1 {
             font-size: 36px;
             color: #0077cc;
             margin-bottom: 20px;
             text-align: center;
         }
-
         h2 {
             font-size: 24px;
             color: #333;
             margin-bottom: 20px;
             text-align: center;
         }
-
-
         .form-group {
             margin-bottom: 20px;
         }
-
-
         .input {
             width: 100%;
             padding: 12px;
@@ -63,8 +51,6 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
-
-        /* Button styling */
         button {
             width: 100%;
             padding: 12px;
@@ -76,27 +62,21 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         button:hover {
             background-color: #005fa3;
         }
-
-
         .error-message {
             color: red;
             font-size: 14px;
             margin-top: -10px;
             text-align: center;
         }
-
-
         p {
             margin-top: 20px;
             text-align: center;
             font-size: 14px;
             color: #555;
         }
-
         a {
             display: block;
             text-align: center;
@@ -104,12 +84,9 @@
             text-decoration: none;
             margin-top: 10px;
         }
-
         a:hover {
             text-decoration: underline;
         }
-
-
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -139,6 +116,8 @@
         <div class="form-group">
             <button type="submit">Sign In</button>
         </div>
+
+        <a th:href="@{/oauth2/authorization/google}">Login with google</a>
         <div th:if="${param.error}" class="error-message">
             <p class="error-message" th:text="${error}"></p>
         </div>

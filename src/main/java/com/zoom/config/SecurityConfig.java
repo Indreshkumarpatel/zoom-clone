@@ -47,7 +47,7 @@ public class SecurityConfig {
                                         .requestMatchers("/joinMeeting/**").permitAll()
                                         .requestMatchers("/user/login").permitAll()
                                         .requestMatchers("/user/signUp").permitAll()
-                                        .requestMatchers("/images/**", "/css/**", "/js/**").permitAll()  // Allow access to static resources
+                                        .requestMatchers("/images/**").permitAll()
                                         .anyRequest().authenticated()
                 )
                 .formLogin(form ->

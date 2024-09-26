@@ -3,15 +3,14 @@ package com.zoom.controllers;
 import com.zoom.entity.Invite;
 import com.zoom.entity.Meeting;
 import com.zoom.entity.User;
-import com.zoom.service.InviteService;
-import com.zoom.service.MeetingService;
-import com.zoom.service.UserService;
+import com.zoom.service.*;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,22 +19,24 @@ import java.util.List;
 @RequestMapping("/meeting-controller")
 public class MeetingController {
 
-    MeetingService meetingService;
-    UserService userService;
-    InviteService inviteService;
+    private final MeetingService meetingService;
+    private final UserService userService;
+    private final InviteService inviteService;
+    private final EmailService emailService;
 
     @Autowired
-    public MeetingController(MeetingService meetingService, UserService userService, InviteService inviteService) {
+    public MeetingController(MeetingService meetingService, UserService userService, InviteService inviteService, EmailService emailService) {
         this.meetingService = meetingService;
         this.userService = userService;
         this.inviteService = inviteService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/scheduleMeeting")
     public String scheduleMeeting(Model model) {
         Meeting meeting = new Meeting();
         model.addAttribute("meeting", meeting);
-        return "schedule-meeting-form";
+        return "schedule-meeting-form"; // Ensure you have this Thymeleaf template
     }
 
     @PostMapping("/scheduleMeeting")
@@ -55,9 +56,24 @@ public class MeetingController {
                 validInvitees.add(invitedUser);
             }
         }
+
         meeting.setInvitedUsers(validInvitees);
         meeting.setHost(currentLoggedInUser);
         meetingService.createMeeting(meeting);
+
+        // Send email notifications
+        String[] invitesEmail = new String[validInvitees.size()];
+        int i = 0;
+        for (User temp : validInvitees) {
+            invitesEmail[i++] = temp.getEmail();
+        }
+        String host=meeting.getHost().getEmail();
+        String title=meeting.getTitle();
+        int duration= meeting.getDuration();
+        LocalDateTime dateTime= meeting.getDateTime();
+        System.out.println("Host-> "+host+"Title-> "+title+"Duration-> "+duration+"DateTime-> "+dateTime);
+
+        emailService.sendEmail(invitesEmail,title,host,dateTime,duration);
         return "redirect:/userDashboard";
     }
 
@@ -65,7 +81,7 @@ public class MeetingController {
     public String startScheduledMeeting(@RequestParam("meetingId") Integer meetingId,
                                         Model model) {
         Meeting meeting = meetingService.findMeetingById(meetingId);
-        return "redirect:/newMeeting";
+        return "redirect:/newMeeting"; // Adjust as needed for starting the meeting
     }
 
     @GetMapping("/deleteScheduledMeeting")

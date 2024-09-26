@@ -53,6 +53,7 @@ public class HomeController {
     @GetMapping("/userDashboard")
     public String userDashboard(Model model) {
         User currentLoggedInUser = userService.getCurrentUser();
+        System.out.println(currentLoggedInUser);
         if (currentLoggedInUser == null) {
             System.out.println("Please Login first");
             return "sign-in";

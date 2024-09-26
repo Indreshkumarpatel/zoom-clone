@@ -1,6 +1,7 @@
 package com.zoom.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "invites")
@@ -16,8 +17,9 @@ public class Invite {
     @JoinColumn(name = "meeting_id")
     private Integer meeting_id;
 
-    @Column(name = "status")
-    private int status=0;
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int status;
 
     public Integer getInvite_id() {
         return invite_id;

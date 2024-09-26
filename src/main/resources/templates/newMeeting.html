@@ -1,7 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
     <title>Zoom</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
 
@@ -9,15 +8,37 @@
         #root {
             width: 100vw;
             height: 100vh;
-            }
+        }
+
+        .overlay-btn {
+            border: none;
+            border-radius: 5px;
+            background-color: #ee0943;
+            color: white;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px; /* Added some margin for better spacing */
+        }
+
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10; /* Ensure the controls are above other elements */
+        }
     </style>
 </head>
 
-
 <body>
 <div id="root"></div>
-</body>
+<div id="controls">
+    <button id="startBtn" class="overlay-btn">Start Recording</button>
+    <button id="stopBtn" class="overlay-btn" disabled>Stop Recording</button>
+</div>
+<script src="https://unpkg.com/zego-superboard-web@2.15.3/index.js"></script>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+
 <script>
     window.onload = function () {
         function getUrlParams(url) {
@@ -27,13 +48,6 @@
             return result;
         }
 
-
-            // Generate a Token by calling a method.
-            // @param 1: appID
-            // @param 2: serverSecret
-            // @param 3: Room ID
-            // @param 4: User ID
-            // @param 5: Username
         const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
         const userID = Math.floor(Math.random() * 10000) + "";
         const userName = "userName" + userID;
@@ -41,32 +55,87 @@
         const serverSecret = "c5505e80b10097f47b28f362002e28f8";
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
+        const zp = ZegoUIKitPrebuilt.create(kitToken);
 
-            const zp = ZegoUIKitPrebuilt.create(kitToken);
-            zp.joinRoom({
-                container: document.querySelector("#root"),
-                sharedLinks: [{
-                    name: 'Personal link',
-                    url: window.location.protocol + '//' + window.location.host  + window.location.pathname + '?roomID=' + roomID,
-                }],
-                scenario: {
-                    mode: ZegoUIKitPrebuilt.VideoConference,
-                },
+        zp.addPlugins({ ZegoSuperBoardManager });
 
-                   turnOnMicrophoneWhenJoining: false,
-                   turnOnCameraWhenJoining: false,
-                   showMyCameraToggleButton: true,
-                   showMyMicrophoneToggleButton: true,
-                   showAudioVideoSettingsButton: true,
-                   showScreenSharingButton: true,
-                   showTextChat: true,
-                   showUserList: true,
-                   maxUsers: 50,
-                   layout: "Grid",
-                   showLayoutButton: true,
-
-                });
+        zp.joinRoom({
+            container: document.querySelector("#root"),
+            sharedLinks: [{
+                name: 'Personal link',
+                url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+            }],
+            scenario: {
+                mode: ZegoUIKitPrebuilt.VideoConference,
+            },
+            turnOnMicrophoneWhenJoining: false,
+            turnOnCameraWhenJoining: false,
+            showMyCameraToggleButton: true,
+            showMyMicrophoneToggleButton: true,
+            showAudioVideoSettingsButton: true,
+            showScreenSharingButton: true,
+            showTextChat: true,
+            showUserList: true,
+            maxUsers: 50,
+            layout: "Grid",
+            showLayoutButton: true,
+            showWhiteboard: true, // You can set this option to show the whiteboard
+        });
     }
-</script>
 
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    let mediaRecorder;
+    let chunks = [];
+
+    startBtn.addEventListener('click', async () => {
+        try {
+            const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                video: true
+            });
+
+            const audioStream = await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
+
+            const combinedStream = new MediaStream([
+                ...screenStream.getVideoTracks(),
+                ...audioStream.getAudioTracks()
+            ]);
+            mediaRecorder = new MediaRecorder(combinedStream);
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    chunks.push(e.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const filename = window.prompt("File name", "video");
+                const dataDownloadUrl = URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = dataDownloadUrl;
+                a.download = `${filename}.webm`;
+                a.click();
+                URL.revokeObjectURL(dataDownloadUrl);
+                chunks = [];
+            };
+
+            mediaRecorder.start(250);
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+        } catch (error) {
+            console.error('Error starting screen recording:', error);
+        }
+    });
+
+    stopBtn.addEventListener('click', () => {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+    });
+</script>
+</body>
 </html>
